@@ -1,11 +1,10 @@
 //
 // This is a Kotlin DSL script which gets compiled into the binary
-// Gradle plugin `se.bynk.gradle.project`.
+// Gradle plugin `se.bynk.gradle.`.
 //
 
 package se.bynk.gradle.plugin
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.google.cloud.tools.jib.gradle.JibExtension
 
 // Use built-in plugins.  External plugins are specified in the

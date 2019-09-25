@@ -24,9 +24,27 @@ repositories {
     gradlePluginPortal()
 }
 
+gradlePlugin {
+    plugins {
+        create("bynk-baseline") {
+            id = "se.bynk.baseline"
+            implementationClass = "se.bynk.gradle.plugin"
+        }
+    }
+}
+
+
 publishing {
     repositories {
         mavenLocal()
+        maven {
+            name = "github"
+            url = uri("https://maven.pkg.github.com/williamhogman")
+            credentials {
+                username = "williamhogman"
+                password = System.getenv("GITHUB_TOKEN") ?: ""
+            }
+        }
     }
 }
 
