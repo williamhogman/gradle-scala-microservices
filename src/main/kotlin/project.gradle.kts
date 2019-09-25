@@ -12,9 +12,9 @@ import com.google.cloud.tools.jib.gradle.JibExtension
 plugins {
     java
     maven
-    idea
-    scala
 }
+
+apply("org.gradle.scala")
 
 // Configure all the POM/JAR repositories we like to use.
 repositories {
