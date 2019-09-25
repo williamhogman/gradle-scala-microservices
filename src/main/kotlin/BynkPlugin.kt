@@ -25,6 +25,12 @@ open class BynkProject {
     var main_class: String = "se.bynk.Main"
 }
 
+class BynkPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        // Handled in project.gradle.kts
+    }
+}
+
 
 
 // We only use this to get access to the resources via class loader.

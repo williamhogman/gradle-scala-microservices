@@ -28,7 +28,7 @@ gradlePlugin {
     plugins {
         create("bynk-baseline") {
             id = "se.bynk.baseline"
-            implementationClass = "se.bynk.gradle.plugin"
+            implementationClass = "se.bynk.gradle.plugin.BynkPlugin"
         }
     }
 }
