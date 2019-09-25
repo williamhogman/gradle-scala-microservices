@@ -26,36 +26,12 @@ repositories {
     }
 }
 
-// Make the plugin configurable via a ``bynk { ... }`` block.
-val bynk = extensions.create<BynkProject>("bynk")
 
 // Apply the plugins listed in `plugins.properties`.
 for ((k, _) in pluginProperties) {
     apply(plugin = k as String)
 }
-
-// Add our standard dependencies that don't have configurable
-// versions; the configurable ones come later.
-dependencies {
-    "implementation"("org.scala-lang:scala-library:${version("scalaLibrary")}")
-}
-
-val mainSourceSet = the<JavaPluginConvention>().sourceSets["main"]
 val mainClasspath = mainSourceSet.runtimeClasspath
-
-defaultTasks("run")
-
-task<JavaExec>("run") {
-    main = bynk.main_class
-    classpath = mainClasspath
-}
-
-task<JavaExec>("debug") {
-    main = bynk.main_class
-    classpath = mainClasspath
-    debug = true
-    environment["DEBUG"] = true
-}
 
 tasks {
     withType<JavaCompile> {
@@ -77,28 +53,5 @@ tasks {
                 attributes("Main-Class" to bynk.main_class)
             }
         }
-    }
-    val sourcesJar by registering(Jar::class) {
-        dependsOn("classes")
-        classifier = "sources"
-        from(mainSourceSet.allSource)
-    }
-
-    val javadoc by existing(Javadoc::class)
-    val javadocJar by registering(Jar::class) {
-        dependsOn(javadoc)
-        from(javadoc.get().destinationDir)
-    }
-
-    artifacts {
-        add("archives", sourcesJar)
-        add("archives", javadocJar)
-    }
-}
-
-configure<JibExtension> {
-    // TODO: Set this image here!!
-    from {
-        image = "gradle:5.3.1-jdk11"
     }
 }

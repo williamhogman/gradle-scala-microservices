@@ -1,14 +1,16 @@
 package se.bynk.gradle.plugin
 
+import com.google.cloud.tools.jib.gradle.JibExtension
 import java.io.StringReader
 import java.util.Properties
 import groovy.text.SimpleTemplateEngine
 import org.gradle.kotlin.dsl.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.scala.ScalaPlugin
-import com.google.cloud.tools.jib.gradle.JibPlugin;
+import gradle.kotlin.dsl.accessors._9c45b6148dc651a560921f0b5f55e43e.sourceSets
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.wrapper.Wrapper
+import org.gradle.jvm.tasks.Jar
 
 val versionProperties =
         readProperties("versions.properties")
@@ -20,18 +22,43 @@ val optionsProperties =
 
 fun version(x: String) = versionProperties.getProperty(x)
 
-open class BynkProject {
-    var jvm_version: String = version("jvm")
-    var main_class: String = "se.bynk.Main"
-}
-
 class BynkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        // Handled in project.gradle.kts
+        // Deps...
+        target.dependencies.add("implementation", "org.scala-lang:scala-library:${version("scalaLibrary")}")
+
+        val mainClass = optionsProperties.getProperty("mainClass")
+        val jvmVersion = version("jvm")
+        target.sourceSets
+        pluginProperties.forEach { k, _ ->
+            target.plugins.apply(k as String)
+        }
+
+        target.tasks.withType(JavaCompile::class.java) {
+            sourceCompatibility = jvmVersion
+            targetCompatibility = jvmVersion
+            options.setIncremental(true)
+            options.encoding = "UTF-8"
+        }
+
+        target.tasks.withType<Wrapper> {
+            gradleVersion = version("gradle")
+        }
+
+        target.tasks.withType<Jar> {
+            manifest {
+                attributes("Main-Class" to mainClass)
+            }
+        }
+
+        target.configure<JibExtension> {
+            // TODO: Set this image here!!
+            from {
+                image = "gradle:5.3.1-jdk11"
+            }
+        }
     }
 }
-
-
 
 // We only use this to get access to the resources via class loader.
 private class Foo {}

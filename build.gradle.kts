@@ -33,21 +33,6 @@ gradlePlugin {
     }
 }
 
-
-publishing {
-    repositories {
-        mavenLocal()
-        maven {
-            name = "github"
-            url = uri("https://maven.pkg.github.com/williamhogman")
-            credentials {
-                username = "williamhogman"
-                password = System.getenv("GITHUB_TOKEN") ?: ""
-            }
-        }
-    }
-}
-
 val versions = readProperties("src/main/resources/versions.properties")
 val plugins = readProperties("src/main/resources/plugins.properties", vars = versions)
 
