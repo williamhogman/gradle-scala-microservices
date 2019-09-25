@@ -24,13 +24,12 @@ fun version(x: String) = versionProperties.getProperty(x)
 class BynkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         // Deps...
-        target.dependencies.add("implementation", "org.scala-lang:scala-library:${version("scalaLibrary")}")
-
         val mainClass = optionsProperties.getProperty("mainClass")
         val jvmVersion = version("jvm")
         pluginProperties.forEach { k, _ ->
             target.plugins.apply(k as String)
         }
+        target.dependencies.add("implementation", "org.scala-lang:scala-library:${version("scalaLibrary")}")
 
         target.tasks.withType(JavaCompile::class.java) {
             sourceCompatibility = jvmVersion
