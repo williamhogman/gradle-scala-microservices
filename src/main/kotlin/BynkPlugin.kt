@@ -7,7 +7,6 @@ import groovy.text.SimpleTemplateEngine
 import org.gradle.kotlin.dsl.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import gradle.kotlin.dsl.accessors._9c45b6148dc651a560921f0b5f55e43e.sourceSets
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.wrapper.Wrapper
 import org.gradle.jvm.tasks.Jar
@@ -29,7 +28,6 @@ class BynkPlugin : Plugin<Project> {
 
         val mainClass = optionsProperties.getProperty("mainClass")
         val jvmVersion = version("jvm")
-        target.sourceSets
         pluginProperties.forEach { k, _ ->
             target.plugins.apply(k as String)
         }
