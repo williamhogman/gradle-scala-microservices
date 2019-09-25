@@ -28,6 +28,9 @@ class BynkPlugin : Plugin<Project> {
         pluginProperties.forEach { k, _ ->
             target.plugins.apply(k as String)
         }
+        target.repositories {
+            mavenCentral()
+        }
         // Deps :)
         target.dependencies {
             "implementation"("org.scala-lang:scala-library:${version("scalaLibrary")}")
