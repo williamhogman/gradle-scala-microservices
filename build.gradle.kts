@@ -11,11 +11,11 @@ plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
     `maven`
-    `maven-publish`
+    id("com.gradle.plugin-publish") version "0.10.0"
 }
 
 group = "se.bynk.gradle"
-version = "1.0"
+version = "0.1-RC1"
 description = "Gradle baseline for Bynk"
 
 repositories {
@@ -24,10 +24,18 @@ repositories {
     gradlePluginPortal()
 }
 
+pluginBundle {
+    website = "https://github.com/williamhogman/gradle-scala-microservicess"
+    vcsUrl = "https://github.com/williamhogman/gradle-scala-microservices"
+    tags = listOf("baseline")
+}
+
 gradlePlugin {
     plugins {
         create("bynk-baseline") {
             id = "se.bynk.baseline"
+            displayName = "Bynk Baseline"
+            description = "Baseline gradle configuration for working with our projects"
             implementationClass = "se.bynk.gradle.plugin.BynkPlugin"
         }
     }
