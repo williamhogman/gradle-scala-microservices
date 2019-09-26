@@ -26,6 +26,8 @@ class BynkPlugin : Plugin<Project> {
         val mainClass = optionsProperties.getProperty("mainClass")
         val jvmVersion = version("jvm")
 
+        target.group = optionsProperties.getProperty("group")
+
         val commonPlugins = listOf("java", "scala")
         commonPlugins.forEach {
             target.plugins.apply(it)
