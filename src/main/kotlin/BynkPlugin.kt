@@ -28,7 +28,7 @@ class BynkPlugin : Plugin<Project> {
         // Common plugins:
         target.plugins.apply("java")
 
-        // External plugins_:
+        // External plugins:
         pluginProperties.forEach { k, _ ->
             target.plugins.apply(k as String)
         }
@@ -57,9 +57,7 @@ class BynkPlugin : Plugin<Project> {
         }
 
         target.configure<JibExtension> {
-            // TODO: Set this image here!!
             from {
-                image = "gradle:5.3.1-jdk11"
             }
         }
     }
