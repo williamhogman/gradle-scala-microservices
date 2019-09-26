@@ -25,8 +25,11 @@ class BynkPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val mainClass = optionsProperties.getProperty("mainClass")
         val jvmVersion = version("jvm")
-        // Common plugins:
-        target.plugins.apply("java")
+
+        val commonPlugins = listOf("java", "scala")
+        commonPlugins.forEach {
+            target.plugins.apply(it)
+        }
 
         // External plugins:
         pluginProperties.forEach { k, _ ->
