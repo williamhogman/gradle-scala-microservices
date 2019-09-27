@@ -30,7 +30,7 @@ class BynkPlugin : Plugin<Project> {
 
         target.group = optionsProperties.getProperty("group")
 
-        val commonPlugins = listOf("java", "scala")
+        val commonPlugins = listOf("scala")
         commonPlugins.forEach {
             target.plugins.apply(it)
         }
