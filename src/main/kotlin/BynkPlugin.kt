@@ -7,6 +7,8 @@ import groovy.text.SimpleTemplateEngine
 import org.gradle.kotlin.dsl.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.wrapper.Wrapper
 import org.gradle.jvm.tasks.Jar
@@ -59,6 +61,23 @@ class BynkPlugin : Plugin<Project> {
             manifest {
                 attributes("Main-Class" to mainClass)
             }
+        }
+
+        val mainSourceSet = target.the<JavaPluginConvention>().sourceSets["main"]
+        val mainClasspath = mainSourceSet.runtimeClasspath
+
+        target.defaultTasks("run")
+
+        target.task<JavaExec>("run") {
+            main = mainClass
+            classpath = mainClasspath
+        }
+
+        target.task<JavaExec>("debug") {
+            main = mainClass
+            classpath = mainClasspath
+            debug = true
+            environment["DEBUG"] = true
         }
 
         target.configure<JibExtension> {
