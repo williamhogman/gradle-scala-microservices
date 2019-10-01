@@ -21,6 +21,9 @@ val pluginProperties =
 val optionsProperties =
         readProperties("options.properties")
 
+
+val includeLogbackELK = true
+
 fun version(x: String) = versionProperties.getProperty(x)
 
 class BynkPlugin : Plugin<Project> {
@@ -45,6 +48,12 @@ class BynkPlugin : Plugin<Project> {
         // Deps :)
         target.dependencies {
             "implementation"("org.scala-lang:scala-library:${version("scalaLibrary")}")
+
+            version("logback").takeIf { includeLogbackELK }?.let { logbackVersion ->
+                "implementation"("ch.qos.logback:logback-core:$logbackVersion")
+                "implementation"("ch.qos.logback:logback-classic:$logbackVersion")
+                "implementation"("net.logstash.logback:logstash-logback-encoder:4.9")
+            }
         }
         target.tasks.withType(JavaCompile::class.java) {
             sourceCompatibility = jvmVersion

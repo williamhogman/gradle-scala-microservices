@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "se.bynk.gradle"
-version = "0.1-RC1"
+version = "0.1-RC2"
 description = "Gradle baseline for Bynk"
 
 repositories {
